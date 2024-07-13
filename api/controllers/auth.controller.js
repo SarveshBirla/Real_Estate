@@ -47,19 +47,23 @@ try{  // Check if user exist
  //   res.setHeader("Set-Cookie","test=" + "myValue").json("success");
  const age = 1000 * 60 * 60 * 24 * 7;
     const token = jwt.sign({
-        id : user.id 
+        id : user.id ,
+        isAdmin :false ,
     },
     process.env.JWT_SECRET_KEY,
     {
         expiresIn:age 
     }
 );
+    
+  const { password:userPassword ,...userInfo } = user
 
     res.cookie("token",token ,{
        httpOnly:true,
       // secure:true
       maxAge: age,
-    }).status(200).json({message:"Login Succesful"});
+    }).status(200)
+      .json({userInfo});
 
 }
 catch(err){
